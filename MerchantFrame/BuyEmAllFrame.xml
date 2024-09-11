@@ -1,0 +1,629 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\Blizzard_SharedXML\UI.xsd">
+<Frame name="BuyEmAllItemTemplate" virtual="true">
+		<Size x="153" y="44"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="SlotTexture" name="$parentSlotTexture" file="Interface\Buttons\UI-EmptySlot">
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-13" y="13"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentNameFrame" file="Interface\MerchantFrame\UI-Merchant-LabelSlots">
+					<Size x="128" y="78"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentSlotTexture" relativePoint="RIGHT" x="-9" y="-18"/>
+					</Anchors>
+				</Texture>
+				<FontString parentKey="Name" name="$parentName" inherits="GameFontNormalSmall" text="Item Name" justifyH="LEFT">
+					<Size x="100" y="30"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentSlotTexture" relativePoint="RIGHT" x="-5" y="7"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<ItemButton parentKey="ItemButton" name="$parentItemButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if ( IsModifiedClick() ) then
+							BuyEmAllItemButton_OnModifiedClick(self, button);
+						else
+							BuyEmAllItemButton_OnClick(self, button);
+						end
+					</OnClick>
+					<OnLoad>
+						BuyEmAllItemButton_OnLoad(self);
+					</OnLoad>
+					<OnDragStart>
+						BuyEmAllItemButton_OnClick(self, "LeftButton");
+					</OnDragStart>
+					<OnEnter>
+						BuyEmAllItemButton_OnEnter(self, motion);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+						ResetCursor();
+						BuyEmAllFrame.itemHover = nil;
+					</OnLeave>
+					<OnHide>
+						if ( self.hasStackSplit == 1 ) then
+							StackSplitFrame:Hide();
+						end
+					</OnHide>
+				</Scripts>
+			</ItemButton>
+
+			<Frame name="$parentMoneyFrame" inherits="SmallMoneyFrameTemplate" hidden="true">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parentNameFrame" relativePoint="BOTTOMLEFT" x="2" y="31"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						SmallMoneyFrame_OnLoad(self);
+						MoneyFrame_SetType(self, "STATIC");
+						MoneyFrame_SetMaxDisplayWidth(self, 100);
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Frame name="$parentAltCurrencyFrame" inherits="SmallAlternateCurrencyFrameTemplate" hidden="true">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parentNameFrame" relativePoint="BOTTOMLEFT" x="2" y="31"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+	</Frame>
+  <Frame name="BuyEmAllFrame" toplevel="true" parent="UIParent" movable="true" enableMouse="true" hidden="true" inherits="ButtonFrameTemplate">
+		<Size x="336" y="444"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="BuyEmAllFramePortrait">
+            <Size x="60" y="60"/>
+            <Anchors>
+                <Anchor point="TOPLEFT" x="7" y="-6"/>
+            </Anchors>
+        </Texture>
+				<Texture name="BuyEmAllBuybackBG" >
+					<Color r="1" g="1" b="1" a=".2"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="BuyEmAllFrame" x="7" y="-60"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="BuyEmAllFrame" x="-7" y="26"/>
+					</Anchors>
+				</Texture>
+            </Layer>
+			<Layer level="BORDER">
+				<FontString name="BuyEmAllPageText" inherits="GameFontNormal" text="Page">
+					<Size x="104" y="0"/>
+					<Anchors>
+						<Anchor point="BOTTOM" x="0" y="86"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture atlas="UI-Merchant-BotFrame" name="BuyEmAllFrameBottomLeftBorder">
+					<Size x="334" y="61"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="1" y="26"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="BuyEmAllItem1" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="11" y="-69"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem2" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem1" relativePoint="TOPRIGHT" x="12" y="0"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem3" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem1" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem4" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem3" relativePoint="TOPRIGHT" x="12" y="0"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem5" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem3" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem6" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem5" relativePoint="TOPRIGHT" x="12" y="0"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem7" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem5" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem8" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem7" relativePoint="TOPRIGHT" x="12" y="0"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem9" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem7" relativePoint="BOTTOMLEFT" x="0" y="-8"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem10" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem9" relativePoint="TOPRIGHT" x="12" y="0"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem11" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem9" relativePoint="BOTTOMLEFT" x="0" y="-15"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllItem12" inherits="BuyEmAllItemTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem11" relativePoint="TOPRIGHT" x="12" y="0"/>
+				</Anchors>
+			</Frame>
+			<Button name="BuyEmAllSellAllJunkButton">
+				<Size x="36" y="36"/>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="160" y="33"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture file="Interface\Buttons\UI-EmptySlot">
+							<Size x="64" y="64"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-13" y="14"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+					<Layer level="BORDER">
+						<Texture parentKey="Icon" atlas="SpellIcon-256x256-SellJunk" useAtlasSize="false">
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						GameTooltip:SetText(SELL_ALL_JUNK_ITEMS);
+						GameTooltip:Show();
+					</OnEnter>
+					<OnLeave function="GameTooltip_Hide"/>
+					<OnClick>
+						BuyEmAllFrame_OnSellAllJunkButtonClicked();
+					</OnClick>
+				</Scripts>
+				<PushedTexture file="Interface\Buttons\UI-Quickslot-Depress"/>
+				<HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
+			</Button>
+			<Button name="BuyEmAllRepairAllButton">
+				<Size x="36" y="36"/>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMLEFT" x="172" y="11"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture file="Interface\Buttons\UI-EmptySlot">
+							<Size x="64" y="64"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-13" y="14"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+					<Layer level="BORDER">
+						<Texture parentKey="Icon" atlas="SpellIcon-256x256-RepairAll" useAtlasSize="false">
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						local repairAllCost, canRepair = GetRepairAllCost();
+						if ( canRepair and (repairAllCost > 0) ) then
+							GameTooltip:SetText(REPAIR_ALL_ITEMS);
+							SetTooltipMoney(GameTooltip, repairAllCost);
+							local personalMoney = GetMoney();
+							if(repairAllCost > personalMoney) then
+								GameTooltip:AddLine(GUILDBANK_REPAIR_INSUFFICIENT_FUNDS, RED_FONT_COLOR:GetRGB());
+							end
+						end
+						GameTooltip:Show();
+					</OnEnter>
+					<OnLeave function="GameTooltip_Hide"/>
+					<OnClick>
+						RepairAllItems();
+						PlaySound(SOUNDKIT.ITEM_REPAIR);
+						GameTooltip:Hide();
+					</OnClick>
+					<OnEvent>
+						local _, canRepair = GetRepairAllCost();
+						if ( not canRepair ) then
+							SetDesaturation(BuyEmAllRepairAllButton.Icon, true);
+							SetDesaturation(BuyEmAllGuildBankRepairButton.Icon, true);
+							BuyEmAllGuildBankRepairButton:Disable();
+							self:Disable();
+						else
+							SetDesaturation(BuyEmAllRepairAllButton.Icon, false);
+							SetDesaturation(BuyEmAllGuildBankRepairButton.Icon, false);
+							self:Enable();
+							BuyEmAllGuildBankRepairButton:Enable();
+						end
+					</OnEvent>
+					<OnLoad>
+						self:RegisterEvent("UPDATE_INVENTORY_DURABILITY");
+					</OnLoad>
+				</Scripts>
+				<PushedTexture file="Interface\Buttons\UI-Quickslot-Depress"/>
+				<HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
+			</Button>
+			<Button name="BuyEmAllRepairItemButton">
+				<Size x="36" y="36"/>
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="BuyEmAllRepairAllButton" relativePoint="LEFT" x="-2" y="0"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture file="Interface\Buttons\UI-EmptySlot">
+							<Size x="64" y="64"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-13" y="14"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+					<Layer level="BORDER">
+						<Texture parentKey="Icon" atlas="SpellIcon-256x256-Repair" useAtlasSize="false">
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						GameTooltip:SetText(REPAIR_AN_ITEM);
+					</OnEnter>
+					<OnLeave function="GameTooltip_Hide"/>
+					<OnClick>
+						if ( InRepairMode() ) then
+							BuyEmAllFrame:UnregisterEvent("PLAYER_MONEY");
+							HideRepairCursor();
+						else
+							BuyEmAllFrame:RegisterEvent("PLAYER_MONEY");
+							ShowRepairCursor();
+						end
+					</OnClick>
+				</Scripts>
+				<PushedTexture file="Interface\Buttons\UI-Quickslot-Depress"/>
+				<HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
+			</Button>
+			<Button name="BuyEmAllGuildBankRepairButton" hidden="true">
+				<Size x="36" y="36"/>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="BuyEmAllRepairAllButton" relativePoint="RIGHT" x="8" y="0"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture file="Interface\Buttons\UI-EmptySlot">
+							<Size x="64" y="64"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-13" y="14"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+					<Layer level="BORDER">
+						<Texture parentKey="Icon" atlas="SpellIcon-256x256-RepairAllGuild" useAtlasSize="false">
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						local repairAllCost, canRepair = GetRepairAllCost();
+						if ( canRepair and (repairAllCost > 0) ) then
+						GameTooltip:SetText(REPAIR_ALL_ITEMS);
+						SetTooltipMoney(GameTooltip, repairAllCost);
+						local amount = GetGuildBankWithdrawMoney();
+						local guildBankMoney = GetGuildBankMoney();
+						if ( amount == -1 ) then
+							-- Guild leader shows full guild bank amount
+							amount = guildBankMoney;
+						else
+							amount = min(amount, guildBankMoney);
+						end
+						GameTooltip:AddLine(GUILDBANK_REPAIR, nil, nil, nil, true);
+						SetTooltipMoney(GameTooltip, amount, "GUILD_REPAIR");
+
+						if ( ( repairAllCost > amount ) ) then
+							-- The repair cost is greater than the guild funds available, so personal funds will be required.
+							local personalAmount = repairAllCost - amount;
+							local personalMoney = GetMoney();
+							if ( personalMoney >= personalAmount ) then
+								-- The player has enough money to make up the difference.
+								GameTooltip:AddLine(GUILDBANK_REPAIR_PERSONAL, nil, nil, nil, true);
+								SetTooltipMoney(GameTooltip, personalAmount);
+							else
+								-- The player doesn't have enough to repair all.
+								GameTooltip:AddLine(GUILDBANK_REPAIR_INSUFFICIENT_FUNDS, RED_FONT_COLOR:GetRGB());
+							end
+						end
+
+						GameTooltip:Show();
+						end
+					</OnEnter>
+					<OnLeave function="GameTooltip_Hide"/>
+					<OnClick>
+						--FIXME!!! Need actual amount of guild money left to withdraw
+						if(CanGuildBankRepair()) then
+							RepairAllItems(true);
+							PlaySound(SOUNDKIT.ITEM_REPAIR);
+						end
+						GameTooltip:Hide();
+					</OnClick>
+					<OnEvent>
+						local _, canRepair = GetRepairAllCost();
+						if ( not canRepair ) then
+							SetDesaturation(BuyEmAllRepairAllButton.Icon, true);
+							SetDesaturation(BuyEmAllGuildBankRepairButton.Icon, true);
+							BuyEmAllGuildBankRepairButton:Disable();
+							BuyEmAllRepairAllButton:Disable();
+						else
+							SetDesaturation(BuyEmAllRepairAllButton.Icon, false);
+							SetDesaturation(BuyEmAllGuildBankRepairButton.Icon, false);
+							self:Enable();
+							BuyEmAllRepairAllButton:Enable();
+						end
+					</OnEvent>
+					<OnLoad>
+						self:RegisterEvent("UPDATE_INVENTORY_DURABILITY");
+					</OnLoad>
+				</Scripts>
+				<PushedTexture file="Interface\Buttons\UI-Quickslot-Depress"/>
+				<HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
+			</Button>
+			<Frame name="BuyEmAllBuyBackItem">
+				<Size x="115" y="37"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="BuyEmAllItem10" relativePoint="BOTTOMLEFT" x="30" y="-53"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="SlotTexture" name="$parentSlotTexture" file="Interface\Buttons\UI-EmptySlot">
+							<Size x="64" y="64"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-13" y="13"/>
+							</Anchors>
+						</Texture>
+						<Texture name="$parentNameFrame" hidden="true" file="Interface\MerchantFrame\UI-Merchant-LabelSlots">
+							<Size x="90" y="64"/>
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parentSlotTexture" relativePoint="RIGHT" x="-9" y="-10"/>
+							</Anchors>
+						</Texture>
+						<FontString parentKey="Name" name="$parentName" inherits="GameFontNormalSmall" text="Item Name" justifyH="LEFT">
+							<Size x="70" y="35"/>
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parentSlotTexture" relativePoint="RIGHT" x="-5" y="2"/>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<ItemButton parentKey="ItemButton" name="$parentItemButton">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parent"/>
+						</Anchors>
+						<Frames>
+							<Frame parentKey="UndoFrame" setAllPoints="true">
+								<Layers>
+									<Layer level="ARTWORK">
+										<Texture atlas="common-icon-undo" parentKey="Arrow">
+											<Size x="20" y="20"/>
+											<Anchors>
+												<Anchor point="CENTER" y="-1"/>
+											</Anchors>
+										</Texture>
+									</Layer>
+								</Layers>
+							</Frame>
+						</Frames>
+						<Scripts>
+							<OnLoad function="BuyEmAllItemBuybackButton_OnLoad"/>
+							<OnEvent>
+								if ( event == "MERCHANT_UPDATE" ) then
+									self:SetItemButtonScale(0.65);
+									if ( GameTooltip:IsOwned(self) ) then
+										GameTooltip:SetBuybackItem(GetNumBuybackItems());
+										GameTooltip:Show();
+									end
+									SetDesaturation(self.UndoFrame.Arrow, GetNumBuybackItems() == 0);
+									UpdateCursorAfterBuyBack(self);
+								end
+							</OnEvent>
+							<OnShow>
+								SetDesaturation(self.UndoFrame.Arrow, GetNumBuybackItems() == 0);
+							</OnShow>
+							<OnClick>
+								BuybackItem(GetNumBuybackItems());
+							</OnClick>
+							<OnEnter>
+								BuyEmAllBuyBackButton_OnEnter(self);
+								UpdateCursorAfterBuyBack(self);
+							</OnEnter>
+							<OnLeave>
+								BuyEmAllBuyBackButton_OnLeave();
+							</OnLeave>
+						</Scripts>
+					</ItemButton>
+					<Frame name="$parentMoneyFrame" inherits="SmallMoneyFrameTemplate" hidden="true">
+						<Anchors>
+							<Anchor point="BOTTOMLEFT" relativeTo="$parentNameFrame" relativePoint="BOTTOMLEFT" x="0" y="25"/>
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+								SmallMoneyFrame_OnLoad(self);
+								MoneyFrame_SetType(self, "STATIC");
+							</OnLoad>
+						</Scripts>
+					</Frame>
+				</Frames>
+			</Frame>
+			<Frame name="BuyEmAllExtraCurrencyInset" inherits="InsetFrameTemplate" useParentLevel="true">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" x="4" y="4"/>
+					<Anchor point="TOPRIGHT" relativePoint="BOTTOMLEFT" x="169" y="27"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllExtraCurrencyBg" inherits="ThinGoldEdgeTemplate" >
+				<Size x="120" y="30"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="BOTTOMLEFT" x="166" y="25"/>
+					<Anchor point="BOTTOMLEFT" x="7" y="6"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllMoneyInset" inherits="InsetFrameTemplate" useParentLevel="true">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="BOTTOMRIGHT" x="-171" y="27"/>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="4"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllMoneyBg" inherits="ThinGoldEdgeTemplate" >
+				<Size x="120" y="30"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-7" y="25"/>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-166" y="6"/>
+				</Anchors>
+			</Frame>
+			<Frame name="BuyEmAllMoneyFrame" inherits="SmallMoneyFrameTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativeTo="BuyEmAllFrame" relativePoint="BOTTOMRIGHT" x="-6" y="10"/>
+				</Anchors>
+			</Frame>
+			<Button name="BuyEmAllPrevPageButton">
+				<Size x="32" y="32"/>
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="BuyEmAllFrame" relativePoint="BOTTOMLEFT" x="25" y="96"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<FontString inherits="GameFontNormal" justifyH="LEFT" text="PREV">
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="BuyEmAllPrevPageButton" relativePoint="RIGHT"/>
+							</Anchors>
+						</FontString>
+						<Texture file="Interface\Buttons\UI-PageButton-Background">
+							<Size x="32" y="32"/>
+							<Anchors>
+								<Anchor point="CENTER" x="0" y="1"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick function="BuyEmAllPrevPageButton_OnClick"/>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
+				<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
+				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+			</Button>
+			<Button name="BuyEmAllNextPageButton">
+				<Size x="32" y="32"/>
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="BuyEmAllFrame" relativePoint="BOTTOMLEFT" x="310" y="96"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<FontString inherits="GameFontNormal" justifyH="RIGHT" text="NEXT">
+							<Anchors>
+								<Anchor point="RIGHT" relativeTo="BuyEmAllNextPageButton" relativePoint="LEFT" x="-3" y="0"/>
+							</Anchors>
+						</FontString>
+						<Texture file="Interface\Buttons\UI-PageButton-Background">
+							<Size x="32" y="32"/>
+							<Anchors>
+								<Anchor point="CENTER" x="0" y="1"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick function="BuyEmAllNextPageButton_OnClick"/>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
+				<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
+				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+			</Button>
+			<Button name="BuyEmAllFrameTab1" inherits="PanelTabButtonTemplate" id="1" text="MERCHANT">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="BOTTOMLEFT" x="50" y="-15"/>
+				</Anchors>
+				<Scripts>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						GameTooltip:SetText("", 1.0,1.0,1.0 );
+					</OnEnter>
+					<OnClick>
+						PanelTemplates_SetTab(MerchantFrame, self:GetID());
+						PanelTemplates_SetTab(BuyEmAllFrame, self:GetID());
+						MerchantFrame_Update();
+						BuyEmAllFrame_Update();
+						EventRegistry:TriggerEvent("MerchantFrame.MerchantTabShow");
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="BuyEmAllFrameTab2" inherits="PanelTabButtonTemplate" id="2" text="BUYBACK">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="BuyEmAllFrameTab1" relativePoint="RIGHT" x="-16" y="0"/>
+				</Anchors>
+				<Scripts>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						GameTooltip:SetText("", 1.0,1.0,1.0 );
+					</OnEnter>
+					<OnClick>
+						PanelTemplates_SetTab(MerchantFrame, self:GetID());
+						PanelTemplates_SetTab(BuyEmAllFrame, self:GetID());
+						MerchantFrame_Update();
+						BuyEmAllFrame_Update();
+						EventRegistry:TriggerEvent("MerchantFrame.BuyBackTabShow");
+					</OnClick>
+				</Scripts>
+			</Button>
+			<DropdownButton parentKey="FilterDropdown" inherits="WowStyle1DropdownTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-11" y="-30"/>
+				</Anchors>
+			</DropdownButton>
+		</Frames>
+		<Scripts>
+			<OnHide function="BuyEmAllFrame_OnHide"/>
+			<OnLoad function="BuyEmAllFrame_OnLoad"/>
+			<OnShow function="BuyEmAllFrame_OnShow"/>
+			<OnEvent function="BuyEmAllFrame_OnEvent"/>
+			<OnUpdate function="BuyEmAllFrame_OnUpdate"/>
+			<OnMouseUp>
+				if ( BuyEmAllFrame.refundItem ) then
+					if ( ContainerFrame_GetExtendedPriceString(BuyEmAllFrame.refundItem, BuyEmAllFrame.refundItemEquipped)) then
+						-- a confirmation dialog has been shown
+						return;
+					end
+				end
+				PickupMerchantItem(0);
+			</OnMouseUp>
+			<OnReceiveDrag>
+				BuyEmAllItemButton_OnClick(self, "LeftButton");
+			</OnReceiveDrag>
+			<OnMouseWheel function="BuyEmAllFrame_OnMouseWheel"/>
+		</Scripts>
+	</Frame>
+</Ui>

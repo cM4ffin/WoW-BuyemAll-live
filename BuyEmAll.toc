@@ -1,0 +1,22 @@
+## Interface: 110002
+## Author: Jordy141
+## Notes: Replaces merchant's shift-click UIs, making it easier to buy large amounts of items at once.
+## Title: BuyEmAll
+## Version: 4.0.0
+## SavedVariablesPerCharacter: BEAConfirmToggle
+## LoadManagers: AddonLoader
+## IconTexture: 132763
+## X-LoadOn-Merchant: true
+## X-LoadOn-Slash: /buyemall
+
+init.lua
+
+localisation/index.xml
+
+BulkBuyFrame/BulkBuyFrame.lua
+BulkBuyFrame/BulkBuyFrame.xml
+
+#code copied over from Blizzard's own MerchantFrame, but renamed to BuyEmAllFrame
+MerchantFrame/BuyEmAllFrame.lua
+MerchantFrame/BuyEmAllFrame.xml
+MerchantFrame/glue.lua
