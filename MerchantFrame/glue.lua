@@ -5,6 +5,9 @@ hooksecurefunc('MerchantFrame_MerchantShow', function()
   MerchantFrame:SetAlpha(0);
 
   --position BuyEmAllFrame over MerchantFrame
+  local currentPoint = BuyEmAllFrame:GetPoint();
+  if(currentPoint == 'CENTER' and C_AddOns.IsAddOnLoaded('BlizzMove')) then return end;
+  
   local numMerchantFramePoints = MerchantFrame:GetNumPoints();
   if(numMerchantFramePoints == 0) then
     --if MerchantFrame has no points (maybe another addon is overriding it too?), we'll use the default position.
