@@ -6,8 +6,10 @@
 ## SavedVariablesPerCharacter: BEAConfirmToggle
 ## LoadManagers: AddonLoader
 ## IconTexture: 132763
-## X-LoadOn-Merchant: true
-## X-LoadOn-Slash: /buyemall
+## X-Build-Type: Release
+## X-Curse-Project-ID: 2590
+## X-WoWI-ID: 5217
+## X-Wago-ID: kRNLnQKo
 
 init.lua
 

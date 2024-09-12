@@ -1,0 +1,6 @@
+package-as: BuyEmAll
+
+ignore:
+  - .git
+  - .vscode
+  - README.md
