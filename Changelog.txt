@@ -1,4 +1,9 @@
-﻿v4.0.0
+﻿v4.0.1
+- Fix lua error that occurs when another addon changes MERCHANT_ITEMS_PER_PAGE
+- Added compatibility with SellJunk
+- Suppress ArkInventory warning about HookOpenAllBags:BuyEmAllFrame not existing
+
+v4.0.0
 - BuyEmAll is now compatible with The War Within (11.0.2).
 - The addon has been rewritten to no longer manipulate the existing Blizzard merchant frame, but now has its own merchant frame using code from the original.
   This frame looks exactly the same as blizzard's frame, and works the same,
