@@ -2,7 +2,7 @@
 ## Author: Jordy141
 ## Notes: Replaces merchant's shift-click UIs, making it easier to buy large amounts of items at once.
 ## Title: BuyEmAll
-## Version: 4.0.1
+## Version: 4.0.2
 ## SavedVariablesPerCharacter: BEAConfirmToggle
 ## LoadManagers: AddonLoader
 ## IconTexture: 132763

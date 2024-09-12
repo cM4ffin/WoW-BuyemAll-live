@@ -1,4 +1,7 @@
-﻿v4.0.1
+﻿v4.0.2
+- Remove forgotten print statement from code
+
+v4.0.1
 - Fix lua error that occurs when another addon changes MERCHANT_ITEMS_PER_PAGE
 - Added compatibility with SellJunk
 - Suppress ArkInventory warning about HookOpenAllBags:BuyEmAllFrame not existing
