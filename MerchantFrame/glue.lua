@@ -4,7 +4,7 @@ hooksecurefunc('MerchantFrame_MerchantShow', function()
   BuyEmAllFrame:SetFrameLevel(2)
   MerchantFrame:SetAlpha(0);
 
-  --position BuyEmAlLFrame over MerchantFrame
+  --position BuyEmAllFrame over MerchantFrame
   local numMerchantFramePoints = MerchantFrame:GetNumPoints();
   if(numMerchantFramePoints == 0) then
     --if MerchantFrame has no points (maybe another addon is overriding it too?), we'll use the default position.
@@ -22,6 +22,10 @@ end)
 hooksecurefunc('MerchantFrame_MerchantClosed', function()
   BuyEmAllFrame_MerchantClosed()
 end )
+
+hooksecurefunc('MerchantFrame_Update', function()
+  BuyEmAllFrame_Update()
+end)
 
 -- when blizzard UI code calls CloseMerchant() to close the merchant window, we'll hide the BuyEmAll frame as well.
 hooksecurefunc('CloseMerchant', function() 
@@ -59,11 +63,6 @@ compatManager.eventFrame:SetScript('OnEvent', function(self, event, arg1)
   end
 end)
 
-compatManager.SellJunk = compatManager.entry(function()
-  local sellButton = LibStub("AceAddon-3.0"):GetAddon("SellJunk").sellButton;
-  sellButton:SetParent(BuyEmAllFrame);
-end)
-
 compatManager.ArkInventory = compatManager.entry(function()
   local originalHook = ArkInventory.HookOpenAllBags;
 
@@ -77,6 +76,14 @@ compatManager.ArkInventory = compatManager.entry(function()
   
     originalHook(self, ...);
   end
+end)
+
+compatManager.SellJunk = compatManager.entry(function()
+  local sellButton = LibStub("AceAddon-3.0"):GetAddon("SellJunk").sellButton;
+
+  sellButton:SetParent(BuyEmAllFrame);
+  local point, _, relativePoint, offsetX, offsetY = sellButton:GetPoint();
+  sellButton:SetPoint(point, BuyEmAllFrame, relativePoint, offsetX, offsetY);
 end)
 
 compatManager:init();

@@ -1,5 +1,12 @@
 local MAX_MONEY_DISPLAY_WIDTH = 120;
-local MERCHANT_ITEMS_PER_PAGE = 10;
+
+local function GetMerchantItemsPerPage()
+	if(select(1, C_AddOns.IsAddOnLoaded("Krowi_ExtendedVendorUI"))) then
+		return MERCHANT_ITEMS_PER_PAGE;
+	end
+
+	return 10;
+end
 
 function BuyEmAllFrame_OnLoad(self)
 	self:RegisterEvent("MERCHANT_UPDATE");
@@ -222,6 +229,7 @@ end
 
 function BuyEmAllFrame_UpdateItemQualityBorders(self)
 	BuyEmAllFrame_UnregisterForQualityUpdates(); -- We'll re-register if we need to.
+	local MERCHANT_ITEMS_PER_PAGE = GetMerchantItemsPerPage();
 
 	if ( BuyEmAllFrame.selectedTab == 1 ) then
 		local numMerchantItems = GetMerchantNumItems();
@@ -246,6 +254,8 @@ function BuyEmAllFrame_UpdateItemQualityBorders(self)
 end
 
 function BuyEmAllFrame_UpdateMerchantInfo()
+	local MERCHANT_ITEMS_PER_PAGE = GetMerchantItemsPerPage();
+
 	BuyEmAllFrame:SetTitle(UnitName("npc"));
 	BuyEmAllFrame:SetPortraitToUnit("npc");
 
@@ -557,6 +567,7 @@ function BuyEmAllNextPageButton_OnClick()
 end
 
 function BuyEmAllFrame_CloseStackSplitFrame()
+	local MERCHANT_ITEMS_PER_PAGE = GetMerchantItemsPerPage();
 	if ( StackSplitFrame:IsShown() ) then
 		local numButtons = max(MERCHANT_ITEMS_PER_PAGE, BUYBACK_ITEMS_PER_PAGE);
 		for i = 1, numButtons do
