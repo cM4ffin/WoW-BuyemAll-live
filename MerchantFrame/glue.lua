@@ -41,7 +41,6 @@ local compatManager = {
   end,
   init = function(self)
     for key, entry in pairs(self) do
-      print(key);
       if(key ~= 'entry' and key ~= 'init' and type(entry) == 'table' and type(entry.onLoaded) == 'function') then
         if(select(2, C_AddOns.IsAddOnLoaded(key))) then
           entry.onLoaded()
