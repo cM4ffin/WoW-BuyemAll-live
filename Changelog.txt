@@ -1,4 +1,7 @@
-﻿v4.0.3
+﻿v4.0.4
+- The BuyEmAll frame can now be moved with BlizzMove
+
+v4.0.3
 - Support for Scrap added
 - Support added for addon tabs added to MerchantFrame through the SecureTabs-2.0 library
 - Prepare support for Krowi's Extended Vendor UI (KEVU). KEVU needs an update as well. BuyEmAll 4.0.3+ and KEVU 8.4+ will be be able to work together.
