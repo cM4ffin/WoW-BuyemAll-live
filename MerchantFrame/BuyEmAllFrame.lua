@@ -1,4 +1,5 @@
 local MAX_MONEY_DISPLAY_WIDTH = 120;
+local MERCHANT_ITEMS_PER_PAGE = 10;
 
 function BuyEmAllFrame_OnLoad(self)
 	self:RegisterEvent("MERCHANT_UPDATE");
