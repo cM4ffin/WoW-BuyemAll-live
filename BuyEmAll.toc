@@ -11,6 +11,8 @@
 ## X-WoWI-ID: 5217
 ## X-Wago-ID: kRNLnQKo
 
+libs/main.xml
+
 init.lua
 
 localisation/index.xml

@@ -2,7 +2,7 @@ local MAX_MONEY_DISPLAY_WIDTH = 120;
 
 local function GetMerchantItemsPerPage()
 	if(select(1, C_AddOns.IsAddOnLoaded("Krowi_ExtendedVendorUI"))) then
-		return MERCHANT_ITEMS_PER_PAGE;
+		return _G.MERCHANT_ITEMS_PER_PAGE;
 	end
 
 	return 10;

@@ -86,4 +86,29 @@ compatManager.SellJunk = compatManager.entry(function()
   sellButton:SetPoint(point, BuyEmAllFrame, relativePoint, offsetX, offsetY);
 end)
 
+compatManager.Scrap = compatManager.entry(function()
+  hooksecurefunc('BuyEmAllFrame_MerchantShow', function()
+    local children = {MerchantBuyBackItem:GetChildren()}
+    for _, v in pairs(children) do
+      if v.AnyJunk ~= nil then
+        v:SetParent(BuyEmAllSellAllJunkButton)
+        v:ClearAllPoints();
+        v:SetAllPoints(BuyEmAllSellAllJunkButton)
+      end
+    end
+  end)
+end)
+
 compatManager:init();
+
+local tabsCache = {};
+
+hooksecurefunc('BuyEmAllFrame_MerchantShow', function()
+  local tabs = LibStub("SecureTabs-2.0").tabs[MerchantFrame];
+  for _, tab in pairs(tabs) do
+    if(tabsCache[tab.frame] == nil) then
+      LibStub("SecureTabs-2.0"):Add(BuyEmAllFrame, tab.frame, tab:GetText());
+      tabsCache[tab.frame] = true;
+    end
+  end
+end)

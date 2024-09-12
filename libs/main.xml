@@ -1,0 +1,5 @@
+<Ui>
+	<Include file="TaintLess\TaintLess.xml"/>
+	<Script file="LibStub\LibStub.lua"/>
+  <Script file="SecureTabs-2.0\SecureTabs-2.0.lua"/>
+</Ui>
