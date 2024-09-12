@@ -99,6 +99,10 @@ compatManager.Scrap = compatManager.entry(function()
   end)
 end)
 
+compatManager.BlizzMove = compatManager.entry(function()
+  _G.BlizzMoveAPI:RegisterAddOnFrames({ ['BuyEmAll'] = {['BuyEmAllFrame'] = { MinVersion = 0 }}})
+end)
+
 compatManager:init();
 
 local tabsCache = {};
