@@ -1,6 +1,9 @@
 package-as: BuyEmAll
 
+manual-changelog: Changelog.txt
+
 ignore:
   - .git
+  - .github
   - .vscode
   - README.md
