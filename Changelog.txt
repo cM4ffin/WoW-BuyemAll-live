@@ -1,4 +1,7 @@
-﻿v4.0.5
+﻿v4.1.0
+- Restore modification of the shift-click frame, hopefully restoring compatibility with most addons
+
+v4.0.5
 - Fix error that would pop up when the vendor window was reopened after being moved by BlizzMove.
 
 v4.0.4

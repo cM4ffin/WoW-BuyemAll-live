@@ -1,11 +1,16 @@
-local L = BuyEmAll.L;
+-- BuyEmAll - Originally created and developed by Cogwheel up to version 2.8.4, Shinisuryu up to version 3.5.5, now developed by Jordy141.
+
+BuyEmAll = {}
+
+local L = BUYEMALL_LOCALS;
 
 -- These are used for the text on the Max and Stack buttons. See BuyEmAll.xml.
+
 BUYEMALL_MAX = L.MAX;
 BUYEMALL_STACK = L.STACK;
-
 function BuyEmAll:OnLoad()
     -- Set up confirmation dialog.
+
     StaticPopupDialogs["BUYEMALL_CONFIRM"] = {
         preferredIndex = 3,
         text = L.CONFIRM,
@@ -21,7 +26,7 @@ function BuyEmAll:OnLoad()
         text = L.CONFIRM,
         button1 = YES,
         button2 = NO,
-        OnAccept = function() BuyMerchantItem(self.ConfirmNoItemLink) end,
+        OnAccept = function(dialog) BuyMerchantItem(self.ConfirmNoItemLink) end,
         timeout = 0,
         hideOnEscape = true,
     };
@@ -34,6 +39,16 @@ function BuyEmAll:OnLoad()
     BuyEmAllCurrencyAmt1:SetText();
     BuyEmAllCurrencyAmt2:SetText();
     BuyEmAllCurrencyAmt3:SetText();
+
+    self.OrigMerchantItemButton_OnModifiedClick = MerchantItemButton_OnModifiedClick;
+    MerchantItemButton_OnModifiedClick = function(frame, button)
+        self:MerchantItemButton_OnModifiedClick(frame, button);
+    end
+
+    self.OrigMerchantFrame_OnHide = MerchantFrame:GetScript("OnHide");
+    MerchantFrame:SetScript("OnHide", function(...)
+        return self:MerchantFrame_OnHide(...);
+    end)
 
     SLASH_BUYEMALL1 = "/buyemall"
     SlashCmdList["BUYEMALL"] = function(message, editbox)
@@ -58,8 +73,10 @@ function BuyEmAll:ItemIsUnique(itemIDOrLink)
 
     local tooltip = C_TooltipInfo.GetItemByID(itemIDOrLink);
     for _, line in ipairs(tooltip.lines) do
-        if line.leftText and line.leftText == 'Unique' then
-            return true
+        for _, arg in ipairs(line.args) do
+            if(arg.field == 'leftText' and arg.stringVal == 'Unique') then
+                return true;
+            end
         end
     end
    
@@ -81,6 +98,11 @@ end
 BEAframe:SetScript("OnEvent", eventHandler);
 
 -- Makes sure the BuyEmAll frame goes away when you leave a vendor.
+
+function BuyEmAll:MerchantFrame_OnHide(...)
+    BuyEmAllFrame:Hide();
+    return self.OrigMerchantFrame_OnHide(...);
+end
 
 function BuyEmAll:HasBagEquippedInSlot(slotID)
     local inventorySlotId = GetInventorySlotInfo("Bag" .. (slotID - 1) .. "Slot");
@@ -111,13 +133,20 @@ function BuyEmAll:GetFreeBagSpace(itemID)
     return canFit, stackSize;
 end
 
-function BuyEmAll:ItemClicked(frame, button)
-    self.itemIndex = frame:GetID()
+-- Hooks left-clicks on merchant item buttons.
 
-    if (IsShiftKeyDown())
-        and not (IsControlKeyDown())
-        and not ((C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(GetMerchantItemLink(self.itemIndex))) and (button == "RightButton"))
-        and not (ChatFrame1EditBox:HasFocus()) then
+function BuyEmAll:MerchantItemButton_OnModifiedClick(frame, button)
+    self.itemIndex = frame:GetID();
+
+    -- Don't think this is needed anymore.
+    --if ChatFrame1EditBox:HasFocus() then ChatFrame1EditBox:Insert(GetMerchantItemLink(frame:GetID()));
+
+
+    if (MerchantFrame.selectedTab == 1)
+            and (IsShiftKeyDown())
+            and not (IsControlKeyDown())
+            and not ((C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(GetMerchantItemLink(self.itemIndex))) and (button == "RightButton"))
+            and not (ChatFrame1EditBox:HasFocus()) then
 
         -- Set up various data before showing the BuyEmAll frame.
 
@@ -127,7 +156,7 @@ function BuyEmAll:ItemClicked(frame, button)
         self.AltCurrencyMode = false;
         self.AtVendor = true; -- Currently at the vendor, for later purchase interruption.
 
-        local name, _, price, quantity, numAvailable, _, _, hasExtendedCostInfo =
+        local name, texture, price, quantity, numAvailable, _, _, hasExtendedCostInfo =
             GetMerchantItemInfo(self.itemIndex);
         
         self.itemName = name;
@@ -207,35 +236,12 @@ function BuyEmAll:ItemClicked(frame, button)
 
         self:Show(frame);
     else
-        local maxStack = GetMerchantItemMaxStack(frame:GetID());
-        local _, _, price, stackCount, _, _, _, extendedCost = GetMerchantItemInfo(frame:GetID());
-        StackSplitFrame:OpenStackSplitFrame(maxPurchasable, self, "BOTTOMLEFT", "TOPLEFT", stackCount);
-        local canAfford;
-        if (price and price > 0) then
-            canAfford = floor(GetMoney() / (price / stackCount));
-        else
-            canAfford = maxStack;
-        end
-
-        if (extendedCost) then
-            local itemCount = GetMerchantItemCostInfo(self:GetID());
-            for i = 1, MAX_ITEM_COST do
-                local itemTexture, itemValue, itemLink, currencyName = GetMerchantItemCostItem(self:GetID(), i);
-                if (itemLink and not currencyName) then
-                    local myCount = C_Item.GetItemCount(itemLink, false, false, true);
-                    canAfford = min(canAfford, floor(myCount / (itemValue / stackCount)));
-                end
-            end
-        end
-
-        if ( maxStack > 1 ) then
-            local maxPurchasable = min(maxStack, canAfford);
-            StackSplitFrame:OpenStackSplitFrame(maxPurchasable, self, "BOTTOMLEFT", "TOPLEFT", stackCount);
-        end
+        self.OrigMerchantItemButton_OnModifiedClick(frame, button);
     end
 end
 
 -- Processor for Alternate Currencies. I think I got it compact as it can be.
+
 function BuyEmAll:AltCurrencyHandling(itemIndex, frame)
     self.AltCurrencyMode = true;
 
@@ -309,10 +315,10 @@ function BuyEmAll:Show(frame)
         BuyEmAllStackButton:Disable();
     end
 
-    BuyEmAllBulkBuyFrame:ClearAllPoints();
-    BuyEmAllBulkBuyFrame:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 0);
+    BuyEmAllFrame:ClearAllPoints();
+    BuyEmAllFrame:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 0);
 
-    BuyEmAllBulkBuyFrame:Show(frame);
+    BuyEmAllFrame:Show(frame);
     self:UpdateDisplay();
 end
 
@@ -364,9 +370,11 @@ function BuyEmAll:onUpdate(sinceLastUpdate)
     end
 end
 
+-- End of code from Treeston.
+
 -- Makes the actual purchase(s)
 function BuyEmAll:DoPurchase(amount)
-    BuyEmAllBulkBuyFrame:Hide();
+    BuyEmAllFrame:Hide();
     local numLoops, purchAmount, leftover;
 
     if(strmatch(self.itemLink, "currency")) then --if item being purchased is a currency, then skip the loop logic and buy everything at once.
@@ -505,7 +513,7 @@ function BuyEmAll:OnClick(frame, button)
         local amount = tonumber(BuyEmAllText:GetText());
         self:VerifyPurchase(amount);
     elseif (frame == BuyEmAllCancelButton) then
-        BuyEmAllBulkBuyFrame:Hide();
+        BuyEmAllFrame:Hide();
     elseif (frame == BuyEmAllStackButton) then
         if (button == "LeftButton") then
             self.split = self.stackClick;
@@ -582,7 +590,7 @@ function BuyEmAll:OnKeyDown(key)
     elseif (key == "ENTER") then
         self:VerifyPurchase();
     elseif (key == "ESCAPE") then
-        BuyEmAllBulkBuyFrame:Hide();
+        BuyEmAllFrame:Hide();
     elseif (key == "LEFT") or (key == "DOWN") then
         BuyEmAll:Left_Click();
     elseif (key == "RIGHT") or (key == "UP") then
@@ -678,11 +686,18 @@ function BuyEmAll:CreateTooltip(frame, lines)
     GameTooltip:Show();
 end
 
+
+-- Hides the tooltip.
+
 function BuyEmAll:OnLeave()
     GameTooltip:Hide();
+
+    --GameTooltip_ClearMoney(GameTooltip);
+    -- Not needed because of previous commenting out.
 end
 
 -- When the BuyEmAll frame is closed, close any confirmations waiting for a response as well as clear the currencies.
+
 function BuyEmAll:OnHide()
     BuyEmAllCurrency1:SetTexture();
     BuyEmAllCurrency2:SetTexture();
@@ -691,5 +706,4 @@ function BuyEmAll:OnHide()
     BuyEmAllCurrencyAmt2:SetText();
     BuyEmAllCurrencyAmt3:SetText();
     StaticPopup_Hide("BUYEMALL_CONFIRM");
-    StaticPopup_Hide("BUYEMALL_CONFIRM2");
 end

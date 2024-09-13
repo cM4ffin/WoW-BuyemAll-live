@@ -19,7 +19,7 @@
 			</OnLeave>
 		</Scripts>
 	</Button>
-	<Frame name="BuyEmAllBulkBuyFrame" hidden="true" parent="UIParent" toplevel="true" frameStrata="HIGH" enableMouse="true" enableKeyboard="true">
+	<Frame name="BuyEmAllFrame" hidden="true" parent="UIParent" toplevel="true" frameStrata="HIGH" enableMouse="true" enableKeyboard="true">
 		<Size>
 			<AbsDimension x="230" y="134" />
 		</Size>
