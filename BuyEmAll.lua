@@ -69,10 +69,8 @@ function BuyEmAll:ItemIsUnique(itemIDOrLink)
 
     local tooltip = C_TooltipInfo.GetItemByID(itemIDOrLink);
     for _, line in ipairs(tooltip.lines) do
-        for _, arg in ipairs(line.args) do
-            if(arg.field == 'leftText' and arg.stringVal == 'Unique') then
-                return true;
-            end
+        if(line.leftText == 'Unique') then
+            return true;
         end
     end
    
