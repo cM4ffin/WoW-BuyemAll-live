@@ -7,6 +7,10 @@
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Merchant: true
 ## X-LoadOn-Slash: /buyemall
+## X-Build-Type: Release
+## X-Curse-Project-ID: 2590
+## X-WoWI-ID: 5217
+## X-Wago-ID: kRNLnQKo
 
 localisation/index.xml
 BuyEmAll.lua
