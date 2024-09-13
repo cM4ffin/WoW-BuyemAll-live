@@ -12,6 +12,9 @@
 ## X-WoWI-ID: 5217
 ## X-Wago-ID: kRNLnQKo
 
+init.lua
+
 localisation/index.xml
+
 BuyEmAll.lua
 BuyEmAll.xml

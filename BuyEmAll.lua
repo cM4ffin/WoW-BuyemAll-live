@@ -1,8 +1,4 @@
--- BuyEmAll - Originally created and developed by Cogwheel up to version 2.8.4, Shinisuryu up to version 3.5.5, now developed by Jordy141.
-
-BuyEmAll = {}
-
-local L = BUYEMALL_LOCALS;
+local L = BuyEmAll.L;
 
 -- These are used for the text on the Max and Stack buttons. See BuyEmAll.xml.
 
